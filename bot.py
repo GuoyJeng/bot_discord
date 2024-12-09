@@ -2,6 +2,7 @@ import os
 import discord
 import yt_dlp
 import asyncio
+import audioop
 
 from discord.ext import commands
 from discord import Interaction
@@ -9,7 +10,14 @@ from discord import FFmpegPCMAudio
 from discord import app_commands
 from discord.ui import Button, View
 
+from commands.join import join as join_command
+from commands.leave import leave as leave_command  
+
+token = os.getenv('discord_token')
+
 intents = discord.Intents.default()
+intents.members = True
+
 client = commands.Bot(command_prefix='!', intents=intents)
 
 @client.event
@@ -56,3 +64,12 @@ async def on_member_join(member):
     else:
         print("Default text channel not found.")
 
+@client.tree.command(name="join", description="Replies with pong!")
+async def join(interaction: Interaction):
+    await join_command(interaction)
+
+@client.tree.command(name="leave", description="Replies with pong!")
+async def leave(interaction: Interaction):
+    await leave_command(interaction)
+
+client.run(token)
