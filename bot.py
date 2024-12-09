@@ -2,22 +2,57 @@ import os
 import discord
 import yt_dlp
 import asyncio
-import random
-import json
-import uvicorn
-import logging
-import requests
-import secrets
-import logging
 
-from dotenv import load_dotenv
 from discord.ext import commands
 from discord import Interaction
 from discord import FFmpegPCMAudio
 from discord import app_commands
 from discord.ui import Button, View
-from discord import utils
-from pymongo import MongoClient
-from threading import Thread
-from pydantic import BaseModel
-from typing import Optional
+
+intents = discord.Intents.default()
+client = commands.Bot(command_prefix='!', intents=intents)
+
+@client.event
+async def on_ready():
+    await client.tree.sync()
+
+@client.event
+async def on_guild_join(guild):
+    embed = discord.Embed(
+        title=f"Hellooo I'm {client.user.name} ",
+        description=r"I'm a bot to help people who interested in coding to use it more conveniently. And we also have many features to support the use. \n if you want  to know what we can do try using the **\help** command",
+        color=discord.Color.green(),
+    )
+    embed.add_field(
+        name=f"Thank you for inviting {client.user.name} to sever ",
+        value="If the bot has any problems or malfunctions, you can report to jeng_7 for improvement and correction.",
+        inline=False,
+    )
+
+    embed.set_footer(text="Release Date: November 20, 2024")
+
+    # Find a suitable text channel to send the message
+    for channel in guild.text_channels:
+        if channel.permissions_for(guild.me).send_messages:
+            print(f"Sending intro message to heheha")
+            await channel.send(embed=embed)
+            break
+
+@client.event
+async def on_member_join(member):
+    print(f"New member joined: {member.display_name}")
+    # Send a welcome message in the default text channel or a specific channel
+    channel = discord.utils.get(member.guild.text_channels, name='welcome')
+
+    if channel:
+        view = View()
+
+        embed = discord.Embed(
+            title=f"Welcome {member.display_name} To {member.guild.name} 👋🤓",
+            description="Thanks you for joining our server! We hope you have a great time here! :D",
+            color=discord.Color.blue(),
+        )
+        await channel.send(embed=embed, view=view)
+    else:
+        print("Default text channel not found.")
+
