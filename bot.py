@@ -10,6 +10,7 @@ from commands.leave import leave as leave_command
 from commands.play import play as play_command
 from commands.skip import skip as skip_command
 from commands.role_com import role as role_command
+from commands.help import help as help_command
 
 token = os.getenv('discord_token')
 
@@ -62,6 +63,10 @@ async def on_member_join(member):
         await channel.send(embed=embed, view=view)
     else:
         print("Default text channel not found.")
+
+@client.tree.command(name="help", description="Replies with pong!")
+async def help(interaction: Interaction):
+    await help_command(interaction)
 
 @client.tree.command(name="join", description="Replies with pong!")
 async def join(interaction: discord.Interaction):
