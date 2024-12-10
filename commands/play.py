@@ -18,7 +18,7 @@ async def play(interaction: discord.Interaction, url: str):
       
         vc = interaction.guild.voice_client
 
-        if interaction.guild.voice_client is None:
+        if vc is None:
             if interaction.user.voice:
                 channel = interaction.user.voice.channel
                 await channel.connect()
@@ -35,7 +35,7 @@ async def play(interaction: discord.Interaction, url: str):
     except Exception as e:
         await interaction.followup.send(f"An error occurred: {e}")
         return
-    
+
 async def play_song(interaction: discord.Interaction, url: str):
     vc = interaction.guild.voice_client
 
