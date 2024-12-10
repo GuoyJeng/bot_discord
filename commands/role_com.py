@@ -8,6 +8,7 @@ intents = discord.Intents.default()
 client = commands.Bot(command_prefix='!', intents=intents)
 
 role_name = "✅ verified"
+role_message_id = None
 
 async def on_raw_reaction_add(payload):
     global role_message_id
@@ -42,7 +43,7 @@ async def on_raw_reaction_add(payload):
 
 async def buttonRole_callback(interaction: discord.Interaction):
     guild = interaction.guild
-    
+
     role = discord.utils.get(guild.roles, name=role_name)
     if role is None:
         role = await guild.create_role(name=role_name)

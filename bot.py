@@ -1,7 +1,5 @@
 import os
 import discord
-import asyncio
-import logging
 
 from discord.ext import commands
 from discord import Interaction
