@@ -52,3 +52,16 @@ async def add_question(interaction: discord.Interaction):
 
     except asyncio.TimeoutError:
         await interaction.response.send_message("You took too long to respond. Please try again.")
+
+async def list_questions(interaction: discord.Interaction):
+    ensure_json_file()
+    with open(QUESTIONS_FILE, "r") as file:
+        data = json.load(file)
+
+    if not data["questions"]:
+        await interaction.response.send_message("No questions have been saved yet.")
+    else:
+        questions = "\n".join(
+            [f"{idx + 1}. {q['question']}" for idx, q in enumerate(data["questions"])]
+        )
+        await interaction.response.send_message(f"Here are the saved questions:\n{questions}")
