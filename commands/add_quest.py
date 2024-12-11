@@ -31,7 +31,7 @@ def save_question(question):
 
 async def add_question(interaction: discord.Interaction):
     # Check if the user is an admin
-    if not interaction.author.guild_permissions.administrator:
+    if not interaction.user.guild_permissions.administrator:
         await interaction.response.send_message("You do not have permission to use this command.")
         return
 
