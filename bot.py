@@ -11,13 +11,15 @@ from commands.play import play as play_command
 from commands.skip import skip as skip_command
 from commands.role_com import role as role_command
 from commands.help import help as help_command
-from commands.add_quest import add_question as add_command
-from commands.add_quest import list_questions as show_command
+from commands.add_quest import add_question as add_command, list_questions as show_command
+from commands.delete import delete_question as delete_command
 
 token = os.getenv('discord_token')
 
 intents = discord.Intents.default()
-intents.members = True
+intents.messages = True
+intents.guilds = True
+intents.message_content = True
 
 client = commands.Bot(command_prefix='!', intents=intents)
 
@@ -91,11 +93,15 @@ async def role(interaction: discord.Interaction):
     await role_command(interaction)
 
 @client.tree.command(name="add", description="Replies with pong!")
-async def add(interaction: Interaction):
-    await add_command(interaction)
+async def add(interaction: discord.Interaction):
+    await add_command(interaction, client)
 
 @client.tree.command(name="show", description="Replies with pong!")
-async def show(interaction: Interaction):
+async def show(interaction: discord.Interaction):
     await show_command(interaction)
+
+@client.tree.command(name="delete", description="Replies with pong!")
+async def delete(interaction: discord.Interaction):
+    await delete_command(interaction)
 
 client.run(token)

@@ -29,17 +29,19 @@ def save_question(question):
     with open(QUESTIONS_FILE, "w") as file:
         json.dump(data, file, indent=4)
 
-async def add_question(interaction: discord.Interaction):
+# Add a question (interaction-based)
+async def add_question(interaction: discord.Interaction, client: discord.Client):
     # Check if the user is an admin
     if not interaction.user.guild_permissions.administrator:
-        await interaction.response.send_message("You do not have permission to use this command.")
+        await interaction.response.send_message("You do not have permission to use this command.", ephemeral=True)
         return
 
     # Ask the admin for a question
-    await interaction.response.send_message("Please type the question you'd like to save:")
+    await interaction.response.defer(ephemeral=True)
+    await interaction.followup.send("Please type the question you'd like to save:")
 
-    def check(message):
-        return message.author == interaction.author and message.channel == interaction.channel
+    def check(message: discord.Message):
+        return message.author == interaction.user and message.channel == interaction.channel
 
     try:
         # Wait for the admin's input
@@ -48,20 +50,21 @@ async def add_question(interaction: discord.Interaction):
 
         # Save the question to the JSON file
         save_question(question)
-        await interaction.response.send_message(f"The question has been saved: `{question}`")
+        await interaction.followup.send(f"The question has been saved: `{question}`")
 
     except asyncio.TimeoutError:
-        await interaction.response.send_message("You took too long to respond. Please try again.")
+        await interaction.followup.send("You took too long to respond. Please try again.", ephemeral=True)
 
+# List saved questions
 async def list_questions(interaction: discord.Interaction):
     ensure_json_file()
     with open(QUESTIONS_FILE, "r") as file:
         data = json.load(file)
 
     if not data["questions"]:
-        await interaction.response.send_message("No questions have been saved yet.")
+        await interaction.response.send_message("No questions have been saved yet.", ephemeral=True)
     else:
         questions = "\n".join(
             [f"{idx + 1}. {q['question']}" for idx, q in enumerate(data["questions"])]
         )
-        await interaction.response.send_message(f"Here are the saved questions:\n{questions}")
+        await interaction.response.send_message(f"Here are the saved questions:\n{questions}", ephemeral=True)
