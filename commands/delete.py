@@ -16,6 +16,10 @@ client = commands.Bot(command_prefix='!', intents=intents)
 QUESTIONS_FILE = "questions.json"
 
 async def delete_question(interaction: discord.Interaction):
+    if not interaction.user.guild_permissions.administrator:
+        await interaction.response.send_message("You do not have permission to use this command.", ephemeral=True)
+        return
+    
     ensure_json_file()
     with open(QUESTIONS_FILE, "r") as file:
         data = json.load(file)

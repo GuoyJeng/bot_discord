@@ -1,20 +1,16 @@
 import discord
 
 from discord.ext import commands
-from discord import Interaction
 from discord.ui import Button, View
 
 intents = discord.Intents.default()
+intents.members = True
 client = commands.Bot(command_prefix='!', intents=intents)
 
 role_name = "✅ verified"
-role_message_id = None
 
 async def on_raw_reaction_add(payload):
-    global role_message_id
-    
-    # Ensure the reaction is from the correct message
-    if payload.message_id != role_message_id:
+    if payload.message_id != payload.message_id:
         return
     
     guild = client.get_guild(payload.guild_id)
@@ -58,8 +54,6 @@ async def buttonRole_callback(interaction: discord.Interaction):
         await interaction.response.send_message(f"An error occurres while granting : {e}", ephemeral=True)
 
 async def role(interaction: discord.Interaction):
-    global role_message_id
-
     buttonRole = Button(label="✅ verified", style=discord.ButtonStyle.grey)
     buttonRole.callback = buttonRole_callback
 
@@ -73,5 +67,4 @@ async def role(interaction: discord.Interaction):
         )
 
     message = await interaction.response.send_message(embed=embed, view=view)
-    role_message_id = message.id
-    
+   

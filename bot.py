@@ -1,9 +1,12 @@
 import os
 import discord
+import yt_dlp
+import logging
 
 from discord.ext import commands
 from discord import Interaction
 from discord.ui import View
+from discord import FFmpegPCMAudio
 
 from commands.join import join as join_command
 from commands.leave import leave as leave_command
