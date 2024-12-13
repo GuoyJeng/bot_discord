@@ -63,7 +63,7 @@ async def role(interaction: discord.Interaction):
     embed = discord.Embed(
             title="You can click the button below to get a role.",
             description="Click ✅ verified button to get a role.",
-            color=discord.Color.blue(),
+            color=discord.Color.magenta(),
         )
 
     message = await interaction.response.send_message(embed=embed, view=view)
