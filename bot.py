@@ -4,6 +4,8 @@ import discord
 from discord.ext import commands
 from discord import Interaction
 from discord.ui import View
+from threading import Thread
+from flask import Flask
 
 from commands.join import join as join_command
 from commands.leave import leave as leave_command
@@ -13,6 +15,12 @@ from commands.help import help as help_command
 from commands.add_quest import add_question as add_command, list_questions as show_command
 from commands.delete import delete_question as delete_command
 from commands.random import send_botton as random_command
+
+app = Flask(__name__)
+
+@app.route("/")
+def index():
+    return "Bot is running!!!!!"
 
 token = os.getenv('discord_token')
 
@@ -119,4 +127,16 @@ async def delete(interaction: discord.Interaction):
 async def random(interaction: discord.Interaction):
     await random_command(interaction)
 
-client.run(token)
+def run_flask():
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
+
+def run_bot():
+    client.run(token)
+
+if __name__ == "__main__":
+    flask_thread = Thread(target=run_flask)
+    flask_thread.daemon = True
+    flask_thread.start()
+
+    run_bot()
