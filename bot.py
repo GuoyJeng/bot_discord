@@ -1,12 +1,9 @@
 import os
 import discord
-import yt_dlp
-import logging
 
 from discord.ext import commands
 from discord import Interaction
 from discord.ui import View
-from discord import FFmpegPCMAudio
 
 from commands.join import join as join_command
 from commands.leave import leave as leave_command
@@ -15,6 +12,7 @@ from commands.role import role as role_command
 from commands.help import help as help_command
 from commands.add_quest import add_question as add_command, list_questions as show_command
 from commands.delete import delete_question as delete_command
+from commands.random import send_botton as random_command
 
 token = os.getenv('discord_token')
 
@@ -116,5 +114,9 @@ async def show(interaction: discord.Interaction):
 @client.tree.command(name="delete", description="Delete a question.")
 async def delete(interaction: discord.Interaction):
     await delete_command(interaction)
+
+@client.tree.command(name="random", description="Random question.")
+async def random(interaction: discord.Interaction):
+    await random_command(interaction)
 
 client.run(token)
