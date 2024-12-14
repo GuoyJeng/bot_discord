@@ -14,8 +14,6 @@ from commands.add_quest import add_question as add_command, list_questions as sh
 from commands.delete import delete_question as delete_command
 from commands.random import send_botton as random_command
 
-discord.opus.load_opus()
-
 token = os.getenv('discord_token')
 
 intents = discord.Intents.default()
