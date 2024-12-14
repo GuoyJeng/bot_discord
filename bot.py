@@ -10,8 +10,7 @@ from discord import FFmpegPCMAudio
 
 from commands.join import join as join_command
 from commands.leave import leave as leave_command
-from commands.play import play as play_command
-from commands.skip import skip as skip_command
+from commands.play import play as play_command, skip as skip_command
 from commands.role import role as role_command
 from commands.help import help as help_command
 from commands.add_quest import add_question as add_command, list_questions as show_command
