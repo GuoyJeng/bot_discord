@@ -1,7 +1,6 @@
 import discord
 import yt_dlp
 import logging
-import asyncio
 
 from discord.ext import commands
 from discord import FFmpegPCMAudio
@@ -66,8 +65,7 @@ async def play_song(vc, interaction, audio_url, title):
     except Exception as e:
         await interaction.followup.send(f"An error occurred while playing: {e}")
 
-async def skip(interaction: discord.Interaction):
-    vc = interaction.guild.voice_client
+async def skip(vc, interaction: discord.Interaction):
     if vc is None:
         await interaction.response.send_message("You haven't invited me to join a voice channel 😫")
         return
