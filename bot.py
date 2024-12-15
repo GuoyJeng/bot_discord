@@ -25,12 +25,6 @@ intents.members = True
 
 client = commands.Bot(command_prefix='!', intents=intents)
 
-try:
-    audio = FFmpegPCMAudio("test.mp3")
-    print("FFmpeg is working!")
-except Exception as e:
-    print(f"FFmpeg error: {e}")
-
 # Check if Opus is installed
 if opus.is_loaded():
     print("Opus is loaded and working!")
