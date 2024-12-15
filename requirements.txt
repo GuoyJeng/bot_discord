@@ -21,6 +21,7 @@ Jinja2==3.1.4
 MarkupSafe==3.0.2
 multidict==6.1.0
 packaging==24.2
+pipdeptree==2.24.0
 pipenv==2024.4.0
 platformdirs==4.3.6
 propcache==0.2.1
