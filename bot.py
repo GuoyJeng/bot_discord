@@ -4,6 +4,8 @@ import discord
 from discord.ext import commands
 from discord import Interaction
 from discord.ui import View
+from discord import FFmpegPCMAudio, opus
+
 
 from commands.join import join as join_command
 from commands.leave import leave as leave_command
@@ -23,6 +25,18 @@ intents.message_content = True
 intents.members = True
 
 client = commands.Bot(command_prefix='!', intents=intents)
+
+try:
+    audio = FFmpegPCMAudio("test.mp3")
+    print("FFmpeg is working!")
+except Exception as e:
+    print(f"FFmpeg error: {e}")
+
+# Check if Opus is installed
+if opus.is_loaded():
+    print("Opus is loaded and working!")
+else:
+    print("Opus is not loaded!")
 
 @client.event
 async def on_ready():
