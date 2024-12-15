@@ -6,7 +6,6 @@ from discord import Interaction
 from discord.ui import View
 from discord import FFmpegPCMAudio, opus
 
-
 from commands.join import join as join_command
 from commands.leave import leave as leave_command
 from commands.play import play as play_command, skip as skip_command
